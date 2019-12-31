@@ -202,7 +202,7 @@ namespace Wokhan.WindowsFirewallNotifier.Common.Helpers
         private static void writeLog(string type, string msg)
 #endif
         {
-            System.Diagnostics.Debug.WriteLine(msg);
+            System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString("hh:mm:ss")} {msg}");
 
             bool LoggingFailed = false;
 
