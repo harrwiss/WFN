@@ -49,7 +49,7 @@
                 <TextBlock Text="{Binding LastMessage}" />
             </Grid>
         </Border>
-        <StackPanel x:Name="stackOptions">
+        <StackPanel x:Name="stackOptions" RenderTransformOrigin="0.492,0.522">
             <TextBlock Margin="5" TextWrapping="Wrap" Text="WFN is not a firewall and relies on the Windows embedded firewall when it comes to connections filtering. The table below shows the current Windows firewall status and allows you to manage the same directly." />
             <WrapPanel>
                 <Label FontWeight="Bold" Content="Current profile: "/>
@@ -98,10 +98,6 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <!-- -->
                 <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="10" Fill="Lavender" />
@@ -120,9 +116,8 @@
                 <ToggleButton Grid.Row="2" Grid.Column="3" IsChecked="{Binding DomainIsEnabled}" />
                 <ToggleButton Grid.Row="2" Grid.Column="4" IsChecked="{Binding AllIsEnabled}" />
 
-                <!-- -->
-                <Label Grid.Row="4" FontWeight="Bold" Grid.ColumnSpan="4" Content="Default actions (when no filtering rule matches)" Background="{DynamicResource AccentColorBrush}" />
-                <!-- -->
+               
+                <!-- not needed anymore since notifier is started independently
                 <Label Grid.Row="5" Content="Inbound" FontWeight="Bold" />
                 <StackPanel Grid.Row="5" Grid.Column="1" IsEnabled="{Binding PrivateIsEnabled}">
                     <RadioButton GroupName="rdbInPrv" Padding="0,0,0,10" IsChecked="{Binding PrivateIsInAllowed}" Content="Allow" Tag="IsFirst" />
@@ -165,8 +160,53 @@
                     <RadioButton GroupName="rdbOutAll" IsChecked="{Binding AllIsOutBlocked}" Content="Block silently" />
                     <RadioButton GroupName="rdbOutAll" Padding="0,10,0,0" IsChecked="{Binding AllIsOutBlockedNotif}" Content="Block and prompt*" />
                 </StackPanel>
+                -->
             </Grid>
-            <TextBlock Margin="10" FontStyle="Italic" TextWrapping="Wrap" Text="* The outgoing notifications are handled by WFN and cannot be applied to a specific profile. Selecting 'Block and prompt' for at least one profile will enable notifications for all of them. It also means that you'll need to disable them for all profiles at once if you wish to." />
+            <!-- <TextBlock Margin="10" FontStyle="Italic" TextWrapping="Wrap" Text="* The outgoing notifications are handled by WFN and cannot be applied to a specific profile. Selecting 'Block and prompt' for at least one profile will enable notifications for all of them. It also means that you'll need to disable them for all profiles at once if you wish to." /> -->
+            <Label Content=""/>
+            <Grid>
+                <Grid.Style>
+                    <Style>
+                        <Style.Resources>
+                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleSwitch}">
+                                <Setter Property="Content" Value="Disabled" />
+                                <Setter Property="Padding" Value="10,5" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Content" Value="Enabled" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Margin" Value="5" />
+                            </Style>
+                            <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource RadioButtonSlide}">
+                                <Setter Property="Margin" Value="5,0" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="BorderBrush" Value="Gray" />
+                                        <Setter Property="Foreground" Value="Gray" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" FontWeight="Bold" Grid.ColumnSpan="2" Content="Notifier" Background="{DynamicResource AccentColorBrush}" />
+                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="Click to start notifier to handle blocked connection attempts" Height="30"/>
+                <ToggleButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="5" IsChecked="True" Background="WhiteSmoke" Content="Start with windows"/>
+            </Grid>
         </StackPanel>
     </DockPanel>
 </Page>
