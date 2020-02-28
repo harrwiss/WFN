@@ -625,8 +625,11 @@ namespace Wokhan.WindowsFirewallNotifier.Notifier.UI.Windows
                     }
                 });
             }
-            tempNotifyIcon_.Dispose();
-            tempNotifyIcon_ = null;
+            if (tempNotifyIcon_ != null)
+            {
+                tempNotifyIcon_.Dispose();
+                tempNotifyIcon_ = null;
+            }
             return success;
         }
 
